@@ -78,7 +78,10 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }} # the automatic token given by github
           publish_dir: . # the place where report files are
           publish_branch: gh-pages # the new branch to save reports
+          commit_message: "Update Test Report" 
 
+    
+          
 
 
      
