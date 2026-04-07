@@ -17,3 +17,14 @@ jobs:
 
       - name: Run Robot Framework Tests
         run: robot google_test.robot
+
+      - name: Upload Test Report
+        if: always() # Report will be saved whether test is passed or failed
+        uses: actions/upload-artifact@v4
+        with:
+          name: robot-framework-report
+          path: |
+            report.html
+            log.html
+            output.xml
+
