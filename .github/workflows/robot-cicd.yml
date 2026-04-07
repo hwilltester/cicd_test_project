@@ -6,6 +6,7 @@ on:
     branches: [ "main" ]
   schedule:
     - cron: '0 0 * * *' # tHIS IS TO RUN AT 12 (UTC)
+  workflow_dispatch: # Manual Run button will be shown if we added this
 
 jobs:
   robot-test:
