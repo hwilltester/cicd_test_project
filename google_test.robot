@@ -17,5 +17,5 @@ ${BROWSER}        headlesschrome
 *** Test Cases ***
 Google Search Test
     Open Browser    https://google.com    ${BROWSER}
-    Title Should Be    Google
+    Title Should Be    Google1
     Close Browser
