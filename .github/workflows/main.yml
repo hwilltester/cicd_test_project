@@ -1,0 +1,9 @@
+name: Tester Robot
+on: [push] # Do this code whenever I upload code
+
+jobs:
+  check-status:
+    runs-on: ubuntu-latest # Run on GitHub Computer
+    steps:
+      - name: Print Message
+        run: echo "Automation Test is starting..."
