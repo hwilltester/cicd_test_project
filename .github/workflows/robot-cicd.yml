@@ -66,4 +66,10 @@ jobs:
             report.html
             log.html
 
+      - name: Notify on Failure
+        if: failure() # This step will do when some test fails
+        run: |
+          echo "Test Failed. Please Check Reports"
+
+
      
