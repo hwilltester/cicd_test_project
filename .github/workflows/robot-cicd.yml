@@ -70,6 +70,15 @@ jobs:
         if: failure() # This step will do when some test fails
         run: |
           echo "Test Failed. Please Check Reports"
+          
+      - name: Deploy Report to GitHub Pages
+        if: always()
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }} # the automatic token given by github
+          publish_dir: . # the place where report files are
+          publish_branch: gh-pages # the new branch to save reports
+
 
 
      
