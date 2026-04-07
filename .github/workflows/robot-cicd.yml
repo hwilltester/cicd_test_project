@@ -1,6 +1,11 @@
 name: Robot Framework CI
 
-on: [push]
+# on: [push]
+on:
+  push:
+    branches: [ "main" ]
+  schedule:
+    - cron: '0 0 * * *' # tHIS IS TO RUN AT 12 (UTC)
 
 jobs:
   robot-test:
