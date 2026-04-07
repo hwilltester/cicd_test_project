@@ -4,5 +4,5 @@ Library           SeleniumLibrary
 *** Test Cases ***
 Google Search Test
     Open Browser    https://google.com    headlesschrome
-    Title Should Be    Google
+    Title Should Be    Facebook
     Close Browser
