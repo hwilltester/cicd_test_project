@@ -19,13 +19,20 @@ jobs:
       #  run: |
        #   python -m pip install --upgrade pip
         #  pip install robotframework robotframework-seleniumlibrary 
+        
       - name: Install Dependencies
         run: |
             python -m pip install --upgrade pip
             pip install -r requirements.txt
 
-      - name: Run Robot Framework Tests
-        run: robot google_test.robot
+   #   - name: Run Robot Framework Tests
+   #     run: robot google_test.robot
+
+      - name: Run Robot Tests with Secret
+        env:
+          LOGIN_PASSWORD: ${{ secrets.MY_PASSWORD }} # Calling password from Secret
+        run: |
+          robot --variable DB_PASSWORD:$LOGIN_PASSWORD google_test.robot
 
       - name: Upload Test Report
         if: always() # Report will be saved whether test is passed or failed
@@ -37,3 +44,4 @@ jobs:
             log.html
             output.xml
 
+     
