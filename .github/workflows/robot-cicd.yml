@@ -11,6 +11,12 @@ jobs:
   robot-test:
     runs-on: ubuntu-latest
 
+# --- New Part ---
+    strategy:
+      matrix:
+        browser: [chrome, firefox] # Listed 2 Browser names
+# --------------
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -34,14 +40,29 @@ jobs:
         run: |
           robot --variable DB_PASSWORD:$LOGIN_PASSWORD google_test.robot
 
+      - name: Run Robot Tests
+        run: |
+          robot --variable BROWSER:headless${{ matrix.browser }} google_test.robot
+ #  ${{ matrix.browser }} will take each name from above listed browser
+
+#      - name: Upload Test Report
+#        if: always() # Report will be saved whether test is passed or failed
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: robot-framework-report
+#          path: |
+#            report.html
+#            log.html
+#            output.xml
+
       - name: Upload Test Report
-        if: always() # Report will be saved whether test is passed or failed
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: robot-framework-report
+          # Need to add matrix.browser to save with different report names
+          name: report-${{ matrix.browser }}
           path: |
             report.html
             log.html
-            output.xml
 
      
