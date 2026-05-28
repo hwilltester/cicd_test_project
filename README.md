@@ -17,9 +17,9 @@ Tests run automatically on every push to main branch.
 
 ## Project Structure
 
-.github/workflows/   # GitHub Actions pipeline config
-google_test.robot    # Robot Framework test suite
-requirements.txt     # Python dependencies
+- .github/workflows/   # GitHub Actions pipeline config
+- google_test.robot    # Robot Framework test suite
+- requirements.txt     # Python dependencies
 
 ## How to Run Locally
 
