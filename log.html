@@ -5,7 +5,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="-1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta content="Robot Framework 7.4.2 (Python 3.12.3 on linux)" name="Generator">
+<meta content="Robot Framework 7.5 (Python 3.12.3 on linux)" name="Generator">
 <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKcAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAAqAAAAAAAAAAAAAAAAAAAALIAAAD/AAAA4AAAANwAAADcAAAA3AAAANwAAADcAAAA3AAAANwAAADcAAAA4AAAAP8AAACxAAAAAAAAAKYAAAD/AAAAuwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC/AAAA/wAAAKkAAAD6AAAAzAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAN8AAAD/AAAA+gAAAMMAAAAAAAAAAgAAAGsAAABrAAAAawAAAGsAAABrAAAAawAAAGsAAABrAAAADAAAAAAAAADaAAAA/wAAAPoAAADDAAAAAAAAAIsAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAANEAAAAAAAAA2gAAAP8AAAD6AAAAwwAAAAAAAAAAAAAAMgAAADIAAAAyAAAAMgAAADIAAAAyAAAAMgAAADIAAAAFAAAAAAAAANoAAAD/AAAA+gAAAMMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADaAAAA/wAAAPoAAADDAAAAAAAAADwAAAB8AAAAAAAAAGAAAABcAAAAAAAAAH8AAABKAAAAAAAAAAAAAAAAAAAA2gAAAP8AAAD6AAAAwwAAAAAAAADCAAAA/wAAACkAAADqAAAA4QAAAAAAAAD7AAAA/wAAALAAAAAGAAAAAAAAANoAAAD/AAAA+gAAAMMAAAAAAAAAIwAAAP4AAAD/AAAA/wAAAGAAAAAAAAAAAAAAAMkAAAD/AAAAigAAAAAAAADaAAAA/wAAAPoAAADDAAAAAAAAAAAAAAAIAAAAcAAAABkAAAAAAAAAAAAAAAAAAAAAAAAAEgAAAAAAAAAAAAAA2gAAAP8AAAD7AAAAywAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAN4AAAD/AAAAqwAAAP8AAACvAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALIAAAD/AAAAsgAAAAAAAAC5AAAA/wAAAMoAAADAAAAAwAAAAMAAAADAAAAAwAAAAMAAAADAAAAAwAAAAMkAAAD/AAAAvAAAAAAAAAAAAAAAAAAAAKwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAArQAAAAAAAAAAwAMAAIABAAAf+AAAP/wAAD/8AAAgBAAAP/wAAD/8AAA//AAAJIwAADHEAAA//AAAP/wAAB/4AACAAQAAwAMAAA==">
 <style media="all">
 :root {
@@ -574,6 +574,22 @@ th.stats-col-graph:hover {
 .metadata td {
     vertical-align: top;
 }
+.metadata .tags {
+    display: flex;
+    flex-wrap: wrap;
+}
+.metadata .tags .label {
+    font-size: 1em;
+    margin: 0 7px 2px 0;
+    padding: 1px 5px;
+    letter-spacing: normal;
+}
+/* https://stackoverflow.com/questions/75238633 */
+@supports (-moz-appearance: none) {
+    .metadata .tags .label {
+        padding-top: 3px;
+    }
+}
 .keyword-metadata {
     font-size: 0.9em;
 }
@@ -1119,6 +1135,7 @@ window.model = (function () {
         test.fullName = data.parent.fullName + '.' + test.name;
         test.formatParentName = function () { return util.formatParentName(test); };
         test.timeout = data.timeout;
+        test.metadata = data.metadata;
         test.populateKeywords = createIterablePopulator('Keyword');
         test.childrenNames = ['keyword'];
         test.isChildrenLoaded = data.isChildrenLoaded;
@@ -1567,7 +1584,7 @@ window.testdata = function () {
             timeout: strings.get(element[3]),
             args: strings.get(element[5]),
             assign: strings.get(element[6]),
-            tags: strings.get(element[7]),
+            tags: tags(element[7], strings),
             doc: function () {
                 var doc = strings.get(element[4]);
                 this.doc = function () { return doc; };
@@ -1602,7 +1619,7 @@ window.testdata = function () {
         return util.map(taglist, strings.get);
     }
     function createTest(parent, element, strings, index) {
-        var status = element[4];
+        var status = element[5];
         var test = model.Test({
             parent: parent,
             id: 't' + (index + 1),
@@ -1613,6 +1630,7 @@ window.testdata = function () {
                 return doc;
             },
             timeout: strings.get(element[1]),
+            metadata: parseMetadata(element[4], strings),
             status: parseStatus(status),
             message: function () {
                 var msg = status.length == 4 ? strings.get(status[3]) : '';
@@ -1621,9 +1639,9 @@ window.testdata = function () {
             },
             times: model.Times(times(status)),
             tags: tags(element[3], strings),
-            isChildrenLoaded: typeof(element[5]) !== 'number'
+            isChildrenLoaded: typeof(element[6]) !== 'number'
         });
-        lazyPopulateKeywordsFromFile(test, element[5], strings);
+        lazyPopulateKeywordsFromFile(test, element[6], strings);
         return test;
     }
     function createSuite(parent, element, strings, index) {
@@ -2073,7 +2091,7 @@ storage = function () {
 window.output = {};
 </script>
 <script type="text/javascript">
-window.output["suite"] = [1,2,3,0,[],[0,0,11886],[],[[4,0,0,[],[0,221,11665,5],[[0,6,7,0,8,9,0,0,[1,222,11520],[[222,2,10]]],[0,11,7,0,12,13,0,0,[0,11742,143],[[11884,2,14],[11885,5,5]]],[0,15,7,0,16,0,0,0,[3,11886,0],[]]]]],[],[1,0,1,0]];
+window.output["suite"] = [1,2,3,0,[],[0,0,10725],[],[[4,0,0,[],[],[0,205,10519,5],[[0,6,7,0,8,9,0,[],[1,206,10326],[[207,2,10]]],[0,11,7,0,12,13,0,[],[0,10533,191],[[10722,2,14],[10723,5,5]]],[0,15,7,0,16,0,0,[],[3,10724,0],[]]]]],[],[1,0,1,0]];
 </script>
 <script type="text/javascript">
 window.output["strings"] = [];
@@ -2082,16 +2100,16 @@ window.output["strings"] = [];
 window.output["strings"] = window.output["strings"].concat(["*","*Google Test","*/home/runner/work/cicd_test_project/cicd_test_project/google_test.robot","*google_test.robot","*Google Search Test","*Title should have been 'Google1' but was 'Google'.","*Open Browser","*SeleniumLibrary","*<p>Opens a new browser instance to the optional <code>url\x3c/code>.\x3c/p>","*<a href=\"https://google.com\">https://google.com\x3c/a>    ${BROWSER}","*Opening browser 'headlesschrome' to base url '<a href=\"https://google.com\">https://google.com\x3c/a>'.","*Title Should Be","*<p>Verifies that the current page title equals <code>title\x3c/code>.\x3c/p>","*Google1","*\x3c/td>\x3c/tr><tr><td colspan=\"3\"><a href=\"selenium-screenshot-1.png\"><img src=\"selenium-screenshot-1.png\" width=\"800px\">\x3c/a>","*Close Browser","*<p>Closes the current browser.\x3c/p>"]);
 </script>
 <script type="text/javascript">
-window.output["stats"] = [[{"elapsed":"00:00:12","fail":1,"label":"All Tests","pass":0,"skip":0}],[],[{"elapsed":"00:00:12","fail":1,"id":"s1","label":"Google Test","name":"Google Test","pass":0,"skip":0}]];
+window.output["stats"] = [[{"elapsed":"00:00:11","fail":1,"label":"All Tests","pass":0,"skip":0}],[],[{"elapsed":"00:00:11","fail":1,"id":"s1","label":"Google Test","name":"Google Test","pass":0,"skip":0}]];
 </script>
 <script type="text/javascript">
 window.output["errors"] = [];
 </script>
 <script type="text/javascript">
-window.output["baseMillis"] = 1789355202204;
+window.output["baseMillis"] = 1789441735013;
 </script>
 <script type="text/javascript">
-window.output["generated"] = 11888;
+window.output["generated"] = 10726;
 </script>
 <script type="text/javascript">
 window.output["expand_keywords"] = null;
@@ -2355,10 +2373,16 @@ function addExecutionLog(main) {
           <td class="doc">{{html doc()}}</td>
         </tr>
         {{/if}}
+        {{each metadata}}
+        <tr>
+          <th>{{html $value[0]}}:</th>
+          <td class="doc">{{html $value[1]}}</td>
+        </tr>
+        {{/each}}
         {{if tags.length}}
         <tr>
           <th>Tags:</th>
-          <td>{{html tags.join(', ')}}</td>
+          <td><div class="tags">{{each tags}}<span class="label">{{html $value}}</span>{{/each}}</div></td>
         </tr>
         {{/if}}
         {{if timeout}}
@@ -2411,10 +2435,10 @@ function addExecutionLog(main) {
           <td class="doc">{{html doc()}}</td>
         </tr>
         {{/if}}
-        {{if tags}}
+        {{if tags.length}}
         <tr>
           <th>Tags:</th>
-          <td>{{html tags}}</td>
+          <td><div class="tags">{{each tags}}<span class="label">{{html $value}}</span>{{/each}}</div></td>
         </tr>
         {{/if}}
         {{if timeout}}
