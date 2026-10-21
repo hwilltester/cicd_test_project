@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<robot generator="Robot 7.5 (Python 3.12.3 on linux)" generated="2026-10-20T03:11:03.972868" rpa="false" schemaversion="5">
+<robot generator="Robot 7.5 (Python 3.12.3 on linux)" generated="2026-10-21T03:05:40.808709" rpa="false" schemaversion="5">
 <suite id="s1" name="Google Test" source="/home/runner/work/cicd_test_project/cicd_test_project/google_test.robot">
 <test id="s1-t1" name="Google Search Test" line="18">
 <kw name="Open Browser" owner="SeleniumLibrary">
-<msg time="2026-10-20T03:11:04.215118" level="INFO">Opening browser 'headlesschrome' to base url 'https://google.com'.</msg>
+<msg time="2026-10-21T03:05:40.924758" level="INFO">Opening browser 'headlesschrome' to base url 'https://google.com'.</msg>
 <arg>https://google.com</arg>
 <arg>${BROWSER}</arg>
 <doc>Opens a new browser instance to the optional ``url``.</doc>
-<status status="PASS" start="2026-10-20T03:11:04.214843" elapsed="13.526712"/>
+<status status="PASS" start="2026-10-21T03:05:40.924597" elapsed="1.811327"/>
 </kw>
 <kw name="Title Should Be" owner="SeleniumLibrary">
-<msg time="2026-10-20T03:11:17.871032" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-1.png"&gt;&lt;img src="selenium-screenshot-1.png" width="800px"&gt;&lt;/a&gt;</msg>
-<msg time="2026-10-20T03:11:17.871243" level="FAIL">Title should have been 'Google1' but was 'Google'.</msg>
+<msg time="2026-10-21T03:05:42.798843" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-1.png"&gt;&lt;img src="selenium-screenshot-1.png" width="800px"&gt;&lt;/a&gt;</msg>
+<msg time="2026-10-21T03:05:42.799009" level="FAIL">Title should have been 'Google1' but was 'Google'.</msg>
 <arg>Google1</arg>
 <doc>Verifies that the current page title equals ``title``.</doc>
-<status status="FAIL" start="2026-10-20T03:11:17.741823" elapsed="0.135365">Title should have been 'Google1' but was 'Google'.</status>
+<status status="FAIL" start="2026-10-21T03:05:42.736212" elapsed="0.063357">Title should have been 'Google1' but was 'Google'.</status>
 </kw>
 <kw name="Close Browser" owner="SeleniumLibrary">
 <doc>Closes the current browser.</doc>
-<status status="NOT RUN" start="2026-10-20T03:11:17.877385" elapsed="0.000037"/>
+<status status="NOT RUN" start="2026-10-21T03:05:42.799734" elapsed="0.000035"/>
 </kw>
-<status status="FAIL" start="2026-10-20T03:11:04.213846" elapsed="13.663752">Title should have been 'Google1' but was 'Google'.</status>
+<status status="FAIL" start="2026-10-21T03:05:40.924003" elapsed="1.875939">Title should have been 'Google1' but was 'Google'.</status>
 </test>
-<status status="FAIL" start="2026-10-20T03:11:03.973751" elapsed="13.904398"/>
+<status status="FAIL" start="2026-10-21T03:05:40.809244" elapsed="1.991102"/>
 </suite>
 <statistics>
 <total>
